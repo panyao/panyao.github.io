@@ -1,23 +1,27 @@
-importScripts('serviceworker-cache-polyfill.js');
+
 importScripts('sha1.js');
+onmessage = function(event){init(event.data)}
+var iter_count=0;
+var slot_size = 1000000;
+var hash_id=0;
+var slots;
+var targethash;
+var salt;
+var algo;
+var salt_location;
+var inp;
+var i=0;
+var st;
+var ks = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_+=!@#$%^&*(){}[]|\\:;\"'?/<>,.";
+var base = ks.length;
+var clear = new Array();
+var cracked = 0;
+var hash_clear="";
 
-// The SW will be shutdown when not in use to save memory,
-// be aware that any global state is likely to disappear
-console.log("SW startup");
-
-self.addEventListener('install', function(event) {
-  console.log("SW installed");
-});
-
-self.addEventListener('activate', function(event) {
-  console.log("SW activated");
-});
-
-self.addEventListener('fetch', function(event) {
-  console.log("Caught a fetch!");
-  event.respondWith(new Response("Hello world!"));
-});
-
+var worklength;
+var result;
+var et;
+var st;
 
 function init(_hash_id)
 {
@@ -99,3 +103,5 @@ function submit_result()
     s_r.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     s_r.send("hash_id=" + hash_id + "&worklength=" + worklength + "&cracked=" + cracked + "&time=" + parseInt(et-st));
 }
+
+
