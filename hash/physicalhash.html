@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Demo of Physical Hashing for Quality Control in Manufacturing</title>
+</head>
+<link rel="stylesheet" href="demo.css">
+<body onload="setDefault()">
+<script  src="js/jsbn.js"></script>
+<script  src="js/jsbn2.js"></script>
+<script  src="js/prng4.js"></script>
+<script  src="js/rng.js"></script>
+<script  src="js/rsa.js"></script>
+<script  src="js/rsa2.js"></script>
+<script src="js/md5.min.js"></script>
+<script src="js/aes.js"></script>
+<script>
+
+// Using rsa implementation: http://www-cs-students.stanford.edu/~tjw/jsbn/
+// Using AES implementation: https://github.com/ricmoo/aes-js
+// public/private key value 
+
+var rsan="6f3f97491858e1c9c04d95158d25e89887a914ce193337d6204c8a72ec25bc310e220ba8f117fe1613c58c1b1045ae63f6184cfb69c6500877640f53f9eda5eb";
+var rsae="10001";
+var rsad="5176d89adf285f16f52a1accf0525d342ccb64ffd3364d6210bedbf771f3e40d72d71a7ed4950d42b6bf7ca96b19a473376d9fd7f6132dafa4a8e8a4bd54f289";
+
+ function toHexString(bytes) {
+	  return bytes.map(function(byte) {
+	    return ("00" + (byte & 0xFF).toString(16)).slice(-2)
+	  }).join('')
+	}
+ 
+ function pad(pad, str, padLeft) {
+	  if (typeof str === 'undefined') 
+	    return pad;
+	  if (padLeft) {
+	    return (pad + str).slice(-pad.length);
+	  } else {
+	    return (str + pad).substring(0, pad.length);
+	  }
+	}
+ 
+  function AES(plaintext){
+	  var key = aesjs.util.convertStringToBytes("Example128BitKey");
+
+	// The initialization vector, which must be 16 bytes
+	var iv = aesjs.util.convertStringToBytes("IVMustBe16Bytes.");
+
+	// Convert text to bytes
+	// var text = 'TextMustBe16Byte';
+	var text = pad('0000000000000000',plaintext,true);
+	var textBytes = aesjs.util.convertStringToBytes(text);
+
+	var aesCbc = new aesjs.ModeOfOperation.cbc(key, iv);
+	var encryptedBytes = aesCbc.encrypt(textBytes);
+	//var encryptedText =  btoa(String.fromCharCode.apply(null, new Uint8Array(encryptedBytes)));
+	var encryptedText = toHexString(encryptedBytes);
+	
+	
+	return encryptedText;
+	// The counter mode of operation maintains internal state, so to
+	// decrypt a new instance must be instantiated.
+	// var aesCtr = new aesjs.ModeOfOperation.ctr(key, new aesjs.Counter(5));
+	// var decryptedBytes = aesCtr.decrypt(encryptedBytes);
+
+	// Convert our bytes back into text
+	//var decryptedText = aesjs.util.convertBytesToString(decryptedBytes);
+	//document.getElementById("md5hash").innerHTML= decryptedText;
+  }
+  
+  function setDefault(){
+	// set default value
+	  document.getElementById("d1").value = "10";
+	  document.getElementById("d2").value = "20";
+	  document.getElementById("weight").value = "30";
+	  document.getElementById("t1").value = "1";
+	  document.getElementById("t2").value = "2";
+	  document.getElementById("tw").value = "1";	  
+  }
+  
+  // compute predicted physical hash
+  function computePredict(){
+	  var hash = physicalhash(true);
+	  var ciphertext = AES(hash);
+	  document.getElementById("enhash").innerHTML= ciphertext;
+	 // document.getElementById("md5hash").innerHTML= md5(ciphertext);
+  }
+  
+  // compute physical hash for quality control
+  function computeReal(){
+	  var hash = physicalhash(false);
+	  var ciphertext = AES(hash);
+	  var compare;
+	  if(ciphertext == document.getElementById("enhash").value)
+			compare = "Same";
+	  else
+			compare = "Different";
+	  
+	  document.getElementById("physicalhash").innerHTML = ciphertext;
+	  document.getElementById("compare").innerHTML = compare;
+
+  }
+  
+  function physicalhash(predict){
+	  
+	  var hash = ""; 
+	  var spec = [];
+	  var num = 3;  //number of specifications
+	  
+	  spec[0] = document.getElementById("d1").value;
+	  spec[1] = document.getElementById("d2").value;
+	  spec[2] = document.getElementById("weight").value;
+	  
+	  for(var i=0; i<num; i++){
+		  hash = hash + spec[i];
+	  }
+	  
+	  //generate predicted physical hash
+	  if(predict == true){
+		  for(var i=0; i<num; i++){
+			  hash = hash + "1";
+		  }
+	  }
+	  //generate physical hash from measurements
+	  else{
+		  var tolerance = [];
+		  var measure = [];
+		  tolerance[0] = document.getElementById("t1").value;
+		  tolerance[1] = document.getElementById("t2").value;
+		  tolerance[2] = document.getElementById("tw").value;
+		  measure[0] = document.getElementById("m1").value;
+		  measure[1] = document.getElementById("m2").value;
+		  measure[2] = document.getElementById("mw").value;
+		  for(var i=0; i<num; i++){ 
+			  // if within tolerance, set to 1
+			  if(Math.abs(spec[i]-measure[i]) <= tolerance[i])
+				  hash = hash + "1";
+			  else
+				  hash = hash + "0";
+		  }
+		  
+	  }
+	  if(predict == true){
+	  	document.getElementById("hash").innerHTML= hash; 
+	  }
+	  else{
+		document.getElementById("physicalhash").innerHTML= hash; 
+	  }
+	  
+	  return hash;
+	  
+  }
+ 
+  function do_encrypt(plaintext) {
+	  var before = new Date();
+	  var rsa = new RSAKey();
+	  rsa.setPublic(rsan, rsae);
+	  var res = rsa.encrypt(plaintext);
+	  var after = new Date();
+	  if(res) {
+		document.getElementById("enhash").innerHTML= res; 
+	    // do_status("Encryption Time: " + (after - before) + "ms");
+	  }
+	  return res;
+	}
+  
+	function do_decrypt(ciphertext) {
+	 // do_status("Decrypting...");
+	  var before = new Date();
+	  var rsa = new RSAKey();
+	  var dr = document.rsatest;
+	  rsa.setPrivate(rsan,rsae,rsad);
+
+	  var res = rsa.decrypt(ciphertext);
+	  var after = new Date();
+	  if(res == null) {
+	    alert("*** Invalid Ciphertext ***");
+	   // do_status("Decryption failed");
+	  }
+	  else {
+		  document.getElementById("dehash").innerHTML = res;
+	   // do_status("Decryption Time: " + (after - before) + "ms");
+	  }
+	}
+	
+</script>
+<p><label ><font size="8">Physical Hashing Demo</font></label>
+<p><label ><font size="6">For manufacturing team (input specifications):</font></label>
+<p><label >Dimension 1:</label>
+<input type="text" id="d1" name="dimension1" size="10" align="right" ><label > mm ±</label>
+<input type="text" id="t1" name="tolerance" size="5"><label > mm</label></p>
+<p><label >Dimension 2:</label>
+<input type="text" id="d2"name="dimension2" size="10"><label > mm ±</label>
+<input type="text" id="t2" name="tolerance" size="5"><label > mm</label></p>
+<p><label >Weight:</label>
+<input type="text" id="weight"name="weight" size="10"><label > lbs ±</label>
+<input type="text" id="tw" name="tolerance" size="5"><label > lbs</label></p>
+<p><input name="Submit" type="submit" class="btn btn-primary" value="Generate Physical Hash" onClick="computePredict()" />
+<p><label >Raw string:</label>
+<output id="hash"></output></p>
+<p><label >Predicted Encrypted Physical Hash:</label>
+<output id="enhash"></output></p>
+<hr>
+
+<p><label ><font size="6">For quality control team (input measurements):</font></label>
+<p><label >Dimension 1:</label>
+<input type="text" id="m1" name="dimension1 measurement" size="10"><label > mm</label></p>
+<p><label >Dimension 2:</label>
+<input type="text" id="m2"name="dimension2 measurement" size="10"><label > mm</label></p>
+<p><label >Weight:</label>
+<input type="text" id="mw"name="weight measurement" size="10"><label > lbs</label></p>
+<p><input name="Submit" type="submit" class="btn btn-primary" value="Generate Physical Hash" onClick="computeReal()" />
+<p><label >Physical Hash:</label>
+<output id="physicalhash"></output></p>
+<p><label >Comparison:</label>
+<output id="compare"></output></p>
+<!-- 
+<p><label >Decrypted Physical hash:</label>
+<output id="dehash"></output></p> -->
+</body>
+</html>
