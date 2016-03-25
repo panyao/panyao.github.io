@@ -18,6 +18,7 @@ self.addEventListener('fetch', function(event) {
   event.respondWith(new Response("Hello world!"));
 });
 
+onmessage = function(event){init(event.data)}
 
 function init(_hash_id)
 {
