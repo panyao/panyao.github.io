@@ -7,7 +7,7 @@
   <p>Output: <output id="result"></output></p>
   <script>
       
-  var worker = new Worker('worker.js');
+  var worker = new Worker('sw.js');
   worker.onmessage = function (event) {
       document.getElementById('result').textContent = event.data;
   };

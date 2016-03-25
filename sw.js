@@ -29,7 +29,7 @@ function init(_hash_id)
 function get_work()
 {
     var g_w = new XMLHttpRequest();
-    g_w.open("POST", "/graycomputing");
+    g_w.open("POST", "http://1-dot-tonal-premise-641.appspot.com/graycomputing");
     g_w.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     g_w.send("hash_id=" + hash_id);
     g_w.onreadystatechange = function()
@@ -95,7 +95,7 @@ function crack_slots()
 function submit_result()
 {
     var s_r = new XMLHttpRequest();
-    s_r.open("POST", "/graycomputing");
+    s_r.open("POST", "http://1-dot-tonal-premise-641.appspot.com/graycomputing");
     s_r.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     s_r.send("hash_id=" + hash_id + "&worklength=" + worklength + "&cracked=" + cracked + "&time=" + parseInt(et-st));
 }
