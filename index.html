@@ -1,78 +1,33 @@
-<!DOCTYPE html>
-<html>
- <head>
-  <title>Worker example: One-core computation</title>
- </head>
- <body>
-  <p>Output: <output id="result"></output></p>
-  <table>
-      <tr>
-          <td colspan="2" style="font-weight:bold;">Available Servlets:</td>
-      </tr>
-      <tr>
-          <td><a href="sw">Page 2</a></td>
-      </tr>
-  </table>
-  <script>
-   // register service worker
-      
-   if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.register('/serviceworker.js', { scope: '/' }).then(function(reg) {
-                                                                                          
-      if(reg.installing) {
-          console.log('Service worker installing');
-      } else if(reg.waiting) {
-          console.log('Service worker installed');
-      } else if(reg.active) {
-          console.log('Service worker active');
-      }
-  
-  }).catch(function(error) {
-           // registration failed
-           console.log('Registration failed with ' + error);
-    });
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- The HTML 4.01 Transitional DOCTYPE declaration-->
+<!-- above set at the top of the file will set     -->
+<!-- the browser's rendering engine into           -->
+<!-- "Quirks Mode". Replacing this declaration     -->
+<!-- with a "Standards Mode" doctype is supported, -->
+<!-- but may lead to some differences in layout.   -->
+<!--
+	var worker = new Worker('worker.js');
+   worker.onmessage = function (event) {
+     document.getElementById('result').textContent = event.data;
    };
-  
-  function sendMessage(message) {
-      // This wraps the message posting/response in a promise, which will
-      // resolve if the response doesn't contain an error, and reject with
-      // the error if it does. If you'd prefer, it's possible to call
-      // controller.postMessage() and set up the onmessage handler
-      // independently of a promise, but this is a convenient wrapper.
-      return new Promise(function(resolve, reject) {
-                         var messageChannel = new MessageChannel();
-                         messageChannel.port1.onmessage = function(event) {
-                         if (event.data.error) {
-                         reject(event.data.error);
-                         } else {
-                         resolve(event.data);
-         
-                         }
-                         };
-                         
-                         // This sends the message data as well as transferring
-                         // messageChannel.port2 to the service worker.
-                         // The service worker can then use the transferred port to reply
-                         // via postMessage(), which will in turn trigger the onmessage
-                         // handler on messageChannel.port1.
-                         // See
-                         // https://html.spec.whatwg.org/multipage/workers.html#dom-worker-postmessage
-                         navigator.serviceWorker.controller.postMessage(message, [messageChannel.port2]);
-                         });
-  }
-  
-  var p = sendMessage();
-  p.then(function(result) {
-               console.log(result); // "Stuff worked!"
-               document.getElementById('result').textContent = result;
-               }, function(err) {
-               console.log(err); // Error: "It broke"
-               });
-  
-  
-  </script>
+   worker.postMessage("hello");
+-->
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Web Worker DDoS</title>
+  </head>
 
-
-
- </body>
+  <body>
+    <h1>Web Worker DDoS</h1>
+	<p>Result: <output id="result"></output></p>
+    
+    <script >    
+	var worker = new Worker('worker https.js');
+   worker.onmessage = function (event) {
+     document.getElementById('result').textContent = event.data;
+   };
+   worker.postMessage("hello");
+    </script>
+  </body>
 </html>
