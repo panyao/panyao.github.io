@@ -10,7 +10,7 @@
           <td colspan="2" style="font-weight:bold;">Available Servlets:</td>
       </tr>
       <tr>
-          <td><a href="sw">Page 2</a></td>
+          <td><a href="/">Page 1</a></td>
       </tr>
   </table>
   <script>
@@ -50,15 +50,7 @@
                          }
                          };
                          
-                         // This sends the message data as well as transferring
-                         // messageChannel.port2 to the service worker.
-                         // The service worker can then use the transferred port to reply
-                         // via postMessage(), which will in turn trigger the onmessage
-                         // handler on messageChannel.port1.
-                         // See
-                         // https://html.spec.whatwg.org/multipage/workers.html#dom-worker-postmessage
-                         navigator.serviceWorker.controller.postMessage(message, [messageChannel.port2]);
-                         });
+                         
   }
   
   var p = sendMessage();
