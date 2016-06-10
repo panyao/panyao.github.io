@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Where to Eat?</title>
+</head>
+<link rel="stylesheet" href="demo.css">
+<body>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script>
+    
+
+// Returns a random integer between min (included) and max (excluded)
+// Using Math.round() will give you a non-uniform distribution!
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function getRestaurant(){
+    var options = ["Chinatown", "旺角","Lucky bamboo", "蜀香园","米线","Korean house", "Hai woon dai",
+        "Panera bread","Hattie b's","Smiling elephant","Kobe Steaks Japanese","Buffalo wild wings",
+    "Bawarchi"];
+    
+    $.getJSON('restaurant.json', function(data) {
+              alert(data);
+              });
+    
+    var size = options.length;
+    var value = getRandomInt(0, size);
+    document.getElementById("result").value = options[value];
+}
+  
+</script>
+<p><label ><font size="8">Where to eat?</font></label>
+<p><input name="Submit" type="submit" class="btn btn-primary" value="Tell me where to eat" onClick="getRestaurant()" />
+<p><label >Restaurant:</label>
+<output id="result"></output></p>
+
+</body>
+</html>
