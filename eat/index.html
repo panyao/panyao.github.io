@@ -24,7 +24,7 @@ function getRestaurant(){
     
     
    $.getJSON('restaurant.json', function(data) {
-             var dataset = JSON.parse(data);
+             var dataset = data;
              alert(dataset.restaurants[0].name);
              var size = dataset.restaurants.length;
              var value = getRandomInt(0, size);
