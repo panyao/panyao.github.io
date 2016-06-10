@@ -1,16 +1,16 @@
 {
-"Restaurants":[
+
     {
         "Name": "Chinatown",
         "Score":"7",
-        "Hours": "Mon11AM-9PM;Tue11AM-9PM;Wed11AM-9PM;Thu11AM-9PM;Fri11AM-10PM;Sat11AM-10PM;Sun11AM-9PM"
+        "Hours": 	 "Mon11AM-9PM;Tue11AM-9PM;Wed11AM-9PM;Thu11AM-9PM;Fri11AM-10PM;Sat11AM-10PM;Sun11AM-9PM"
     },
+
     {
         "Name": "旺角",
         "Score":"8",
-        "Hours": "Mon11AM-9:30PM;Tue11AM-9:30PM;Wed11AM-9:30PM;Thu11AM-9:30PM;Fri11AM-10PM;Sat11AM-10PM;Sun11AM-9:30PM"
+        "Hours": 	"Mon11AM-9:30PM;Tue11AM-9:30PM;Wed11AM-9:30PM;Thu11AM-9:30PM;Fri11AM-10PM;Sat11AM-10PM;Sun11AM-9:30PM"
 
     }
 
- ]
 }
