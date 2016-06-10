@@ -21,15 +21,20 @@ function getRestaurant(){
         "Panera bread","Hattie b's","Smiling elephant","Kobe Steaks Japanese","Buffalo wild wings",
     "Bawarchi"];
     
-    $.getJSON('restaurant.json', function(data) {
-              alert(data);
-              });
     
-    var size = options.length;
-    var value = getRandomInt(0, size);
-    document.getElementById("result").value = options[value];
+    
+   $.getJSON('restaurant.json', function(data) {
+             var restaurants = JSON.parse(data);
+             alert(restaurants);
+             var size = restaurants.length;
+             var value = getRandomInt(0, size);
+             document.getElementById("result").value = restaurants[value].Name;
+             
+         });
+         
+    
 }
-  
+
 </script>
 <p><label ><font size="8">Where to eat?</font></label>
 <p><input name="Submit" type="submit" class="btn btn-primary" value="Tell me where to eat" onClick="getRestaurant()" />
