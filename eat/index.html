@@ -24,11 +24,11 @@ function getRestaurant(){
     
     
    $.getJSON('restaurant.json', function(data) {
-             var restaurants = JSON.parse(data);
-             alert(restaurants);
-             var size = restaurants.length;
+             var dataset = JSON.parse(data);
+             alert(dataset.restaurants[0].name);
+             var size = dataset.restaurants.length;
              var value = getRandomInt(0, size);
-             document.getElementById("result").value = restaurants[value].Name;
+             document.getElementById("result").value = dataset.restaurants[value].name;
              
          });
          
