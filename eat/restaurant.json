@@ -2,14 +2,54 @@
 
     {
         "name": "Chinatown",
-        "score":"7",
+        "score":"5",
         "hours": 	 "Mon11AM-9PM;Tue11AM-9PM;Wed11AM-9PM;Thu11AM-9PM;Fri11AM-10PM;Sat11AM-10PM;Sun11AM-9PM"
     },
     {
         "name": "旺角",
-        "score":"8",
+        "score":"9",
         "hours": 	"Mon11AM-9:30PM;Tue11AM-9:30PM;Wed11AM-9:30PM;Thu11AM-9:30PM;Fri11AM-10PM;Sat11AM-10PM;Sun11AM-9:30PM"
 
+    },
+	{
+        "name": "Lucky bamboo",
+        "score":"4"
+    },
+	{
+        "name": "蜀香园",
+        "score":"9"
+    },
+    {
+        "name": "米线",
+        "score":"8"
+    },
+    {
+        "name": "Korean house",
+        "score":"6"
+    },
+    {
+        "name": "Hai woon dai",
+        "score":"8"
+    },
+    {
+        "name": "Panera bread",
+        "score":"10"
+    },
+    {
+        "name": "Hattie b's",
+        "score":"6"
+    },
+    {
+        "name": "Smiling elephant",
+        "score":"5"
+    },
+    {
+        "name": "Lucky bamboo",
+        "score":""
+    }
+    {
+        "name": "Lucky bamboo",
+        "score":""
     }
 ]
 }

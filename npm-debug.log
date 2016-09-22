@@ -1,0 +1,28 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   'cookies' ]
+2 info using npm@3.6.0
+3 info using node@v5.6.0
+4 verbose stack Error: Cannot find module './lib/cookies'
+4 verbose stack     at Function.Module._resolveFilename (module.js:339:15)
+4 verbose stack     at Function.Module._load (module.js:290:25)
+4 verbose stack     at Module.require (module.js:367:17)
+4 verbose stack     at require (internal/module.js:16:19)
+4 verbose stack     at Object.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/index.js:18:29)
+4 verbose stack     at Module._compile (module.js:413:34)
+4 verbose stack     at Object.Module._extensions..js (module.js:422:10)
+4 verbose stack     at Module.load (module.js:357:32)
+4 verbose stack     at Function.Module._load (module.js:314:12)
+4 verbose stack     at Module.require (module.js:367:17)
+5 verbose cwd /Users/yaopan/Downloads/panyao.github.io
+6 error Darwin 15.0.0
+7 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "install" "cookies"
+8 error node v5.6.0
+9 error npm  v3.6.0
+10 error code MODULE_NOT_FOUND
+11 error Cannot find module './lib/cookies'
+12 error If you need help, you may report this error at:
+12 error     <https://github.com/npm/npm/issues>
+13 verbose exit [ 1, true ]
