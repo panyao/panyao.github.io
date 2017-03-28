@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>Test Network Information API</title>
+ </head>
+ <body>
+  
+  <script>
+      var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+		var type = connection.type;
+
+function updateConnectionStatus() {
+  alert("Connection type is change from " + type + " to " + connection.type);
+}
+
+connection.addEventListener('typechange', updateConnectionStatus);
+  
+  
+  </script>
+
+
+
+ </body>
+</html>
